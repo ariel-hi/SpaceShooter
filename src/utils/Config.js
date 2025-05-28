@@ -59,7 +59,8 @@ export const CONFIG = {
         // Points based on size and health
         BASE_POINTS: 10, // Minimum points
         POINTS_SIZE_FACTOR: 0.5, // Points increase with size
-        POINTS_HP_FACTOR: 2 // Points per HP
+        POINTS_HP_FACTOR: 2, // Points per HP
+        // Spikes use the same size and speed ranges as asteroids
     },
     EFFECTS: {
         EXPLOSION_PARTICLES: 15,

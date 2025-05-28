@@ -120,6 +120,19 @@ export class Game {
             return;
         }
         
+        // Check player-spike collisions
+        const spikes = this.asteroidManager.getSpikes();
+        const spikeHit = this.collisionSystem.checkPlayerSpikeCollisions(this.player, spikes);
+        
+        if (spikeHit) {
+            // Create explosion at player position
+            this.createExplosion(this.player.x, this.player.y, CONFIG.PLAYER.SIZE);
+            
+            this.gameOver = true;
+            this.endGame();
+            return;
+        }
+        
         // Check bullet-asteroid collisions
         const bullets = this.player.getBullets();
         const collisions = this.collisionSystem.checkBulletAsteroidCollisions(bullets, asteroids);

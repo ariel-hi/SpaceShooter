@@ -50,4 +50,15 @@ export class CollisionSystem {
         // Check if circles overlap
         return distance < circle1.radius + circle2.radius;
     }
+    
+    checkPlayerSpikeCollisions(player, spikes) {
+        const playerHitbox = player.getHitbox();
+        for (const spike of spikes) {
+            const spikeHitbox = spike.getHitbox();
+            if (this.checkCircleCollision(playerHitbox, spikeHitbox)) {
+                return true; // Player hit a spike
+            }
+        }
+        return false;
+    }
 } 

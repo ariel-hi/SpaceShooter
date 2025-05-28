@@ -10,6 +10,11 @@ A classic space shooter game with roguelike elements. Destroy asteroids to earn 
 - Unlock upgrades as you earn more points
 - Progressive difficulty as the game goes on
 
+## New Feature: Spikes
+- After the 5th upgrade, indestructible spike hazards begin to fall alongside asteroids.
+- Spikes cannot be destroyed and will instantly defeat the player on collision.
+- Spikes are visually distinct (red, spiky triangles).
+
 ## Controls
 
 - **Left Arrow / A:** Move left

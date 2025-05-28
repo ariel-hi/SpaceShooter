@@ -1,13 +1,17 @@
 import { Asteroid } from '../entities/Asteroid.js';
 import { CONFIG } from '../utils/Config.js';
+import { Spike } from '../entities/Spike.js';
 
 export class AsteroidManager {
     constructor(container, gameInstance) {
         this.container = container;
         this.game = gameInstance;
         this.asteroids = [];
+        this.spikes = [];
         this.lastSpawnTime = 0;
+        this.lastSpikeSpawnTime = 0;
         this.spawnRate = CONFIG.ASTEROID.SPAWN_RATE;
+        this.spikeSpawnRate = 1800; // ms between spikes
         this.difficultyMultiplier = 1;
         this.waveTimer = 0;
         this.spawnPattern = 'random'; // Current spawn pattern
@@ -15,8 +19,10 @@ export class AsteroidManager {
     
     initialize() {
         this.asteroids = [];
+        this.spikes = [];
         this.difficultyMultiplier = 1;
         this.lastSpawnTime = Date.now();
+        this.lastSpikeSpawnTime = Date.now();
         this.waveTimer = 0;
         this.spawnPattern = 'random';
     }
@@ -24,10 +30,12 @@ export class AsteroidManager {
     update(delta) {
         // Spawn new asteroids
         this.spawnAsteroids(delta);
-        
+        // Spawn spikes if unlocked
+        this.spawnSpikes(delta);
         // Update existing asteroids
         this.updateAsteroids(delta);
-        
+        // Update spikes
+        this.updateSpikes(delta);
         // Increase difficulty over time
         this.updateDifficulty(delta);
     }
@@ -160,5 +168,46 @@ export class AsteroidManager {
     
     getAsteroids() {
         return this.asteroids;
+    }
+
+    spawnSpikes(delta) {
+        // Only spawn spikes after 5th upgrade
+        const upgradeCount = this.game?.player?.getUpgradeCount() || 0;
+        if (upgradeCount < 5) return;
+        // Make spikes more frequent as upgrades increase
+        const minRate = 500; // Minimum ms between spikes
+        const baseRate = 1800;
+        const rateDecrease = (upgradeCount - 5) * 200; // Each upgrade after 5th increases frequency
+        this.spikeSpawnRate = Math.max(minRate, baseRate - rateDecrease);
+        const currentTime = Date.now();
+        if (currentTime - this.lastSpikeSpawnTime < this.spikeSpawnRate) return;
+        this.lastSpikeSpawnTime = currentTime;
+        // Random position at the top
+        const x = Math.random() * CONFIG.GAME.WIDTH;
+        const y = -CONFIG.ASTEROID.MAX_SIZE;
+        const size = CONFIG.ASTEROID.MIN_SIZE + Math.random() * (CONFIG.ASTEROID.MAX_SIZE - CONFIG.ASTEROID.MIN_SIZE);
+        const baseSpeed = CONFIG.ASTEROID.MIN_SPEED + Math.random() * (CONFIG.ASTEROID.MAX_SPEED - CONFIG.ASTEROID.MIN_SPEED);
+        const speed = baseSpeed * this.difficultyMultiplier * 1.1; // Spikes slightly faster
+        const spike = new Spike(x, y, size, speed, this.container);
+        this.spikes.push(spike);
+    }
+
+    updateSpikes(delta) {
+        for (let i = this.spikes.length - 1; i >= 0; i--) {
+            const spike = this.spikes[i];
+            spike.update(delta);
+            if (spike.isOffScreen()) {
+                this.removeSpike(i);
+            }
+        }
+    }
+
+    removeSpike(index) {
+        this.spikes[index].destroy();
+        this.spikes.splice(index, 1);
+    }
+
+    getSpikes() {
+        return this.spikes;
     }
 } 

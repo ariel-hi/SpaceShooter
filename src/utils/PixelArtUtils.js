@@ -300,4 +300,47 @@ export class PixelArtUtils {
             }
         };
     }
+    
+    /**
+     * Creates a pixel art spike (indestructible hazard)
+     * @param {number} size - Size of the spike
+     * @returns {PIXI.Container} - Container with the spike graphics
+     */
+    static createPixelSpike(size) {
+        const container = new PIXI.Container();
+        const mainColor = CONFIG.COLORS.ENEMY_RED;
+        const lightColor = CONFIG.COLORS.ENEMY_RED_LIGHT;
+        const darkColor = CONFIG.COLORS.ENEMY_RED_DARK;
+        const scale = CONFIG.GAME.PIXEL_SCALE;
+
+        // Main spike triangle
+        const spike = new PIXI.Graphics();
+        spike.beginFill(darkColor);
+        spike.drawPolygon([
+            0, -size/2 - scale,
+            -size/2 - scale, size/2 + scale,
+            size/2 + scale, size/2 + scale
+        ]);
+        spike.endFill();
+
+        spike.beginFill(mainColor);
+        spike.drawPolygon([
+            0, -size/2,
+            -size/2, size/2,
+            size/2, size/2
+        ]);
+        spike.endFill();
+
+        // Highlight
+        spike.beginFill(lightColor);
+        spike.drawPolygon([
+            0, -size/2 + scale,
+            -scale, size/2 - scale,
+            scale, size/2 - scale
+        ]);
+        spike.endFill();
+
+        container.addChild(spike);
+        return container;
+    }
 } 

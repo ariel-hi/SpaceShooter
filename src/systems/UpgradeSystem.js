@@ -10,6 +10,7 @@ export class UpgradeSystem {
         this.upgradeScreenContainer = null;
         this.selectedUpgrade = null;
         this.upgradeOptions = [];
+        this.upgradeScreenActive = false; // Prevent multiple selections
     }
     
     incrementAsteroidsDestroyed() {
@@ -27,6 +28,8 @@ export class UpgradeSystem {
     }
     
     showUpgradeScreen() {
+        if (this.upgradeScreenActive) return; // Prevent duplicate screens
+        this.upgradeScreenActive = true;
         // Pause the game
         this.game.paused = true;
         
@@ -140,7 +143,7 @@ export class UpgradeSystem {
     }
     
     handleKeyDown(event) {
-        if (!this.upgradeScreenContainer) return;
+        if (!this.upgradeScreenContainer || !this.upgradeScreenActive) return;
         
         switch (event.key) {
             case '1':
@@ -471,6 +474,8 @@ export class UpgradeSystem {
     }
     
     selectUpgrade(upgrade) {
+        if (!this.upgradeScreenActive) return; // Prevent multiple selections
+        this.upgradeScreenActive = false;
         this.selectedUpgrade = upgrade;
         this.applySelectedUpgrade();
         if (this.game.playSFX) {
@@ -485,16 +490,14 @@ export class UpgradeSystem {
     }
     
     closeUpgradeScreen() {
+        if (!this.upgradeScreenActive && !this.upgradeScreenContainer) return;
+        this.upgradeScreenActive = false;
         if (this.upgradeScreenContainer) {
             this.uiContainer.removeChild(this.upgradeScreenContainer);
             this.upgradeScreenContainer = null;
             this.upgradeOptions = [];
-            
-            // Remove keyboard event listener
             window.removeEventListener('keydown', this.handleKeyDown);
         }
-        
-        // Resume the game
         this.game.paused = false;
     }
     
@@ -560,6 +563,7 @@ export class UpgradeSystem {
     
     reset() {
         this.asteroidsDestroyed = 0;
+        this.upgradeScreenActive = false;
         if (this.upgradeScreenContainer) {
             this.closeUpgradeScreen();
         }
