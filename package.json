@@ -2,15 +2,42 @@
   "name": "space-shooter-roguelike",
   "version": "1.0.0",
   "description": "A space shooter roguelike game",
+  "main": "electron.js",
   "source": "index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --public-url ./",
+    "electron": "electron .",
+    "electron-build": "electron-builder",
+    "package": "npm run build && npm run electron-build",
+    "generate-icons": "node scripts/generate-icons.js"
   },
   "dependencies": {
     "pixi.js": "^7.3.2"
   },
   "devDependencies": {
-    "parcel": "^2.10.3"
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "parcel": "^2.10.3",
+    "sharp": "^0.33.2"
+  },
+  "build": {
+    "appId": "com.spaceshooter.roguelike",
+    "productName": "Space Shooter Roguelike",
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
   }
-} 
+}

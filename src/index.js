@@ -1,5 +1,12 @@
 import { Game } from './core/Game.js';
 
+// Add Electron close button logic
+let ipcRenderer = null;
+try {
+    // Only available in Electron
+    ipcRenderer = window.require ? window.require('electron').ipcRenderer : null;
+} catch (e) {}
+
 // Initialize and start the game
 window.onload = () => {
     // Wait for loading animation to complete
@@ -68,6 +75,14 @@ window.onload = () => {
         });
 
         document.body.appendChild(volumeContainer);
+
+        // Add close button logic
+        const closeBtn = document.getElementById('close-btn');
+        if (closeBtn && ipcRenderer) {
+            closeBtn.addEventListener('click', () => {
+                ipcRenderer.send('close-app');
+            });
+        }
 
         console.log('Game initialized and started!');
     }, 2000); // 2 second delay for loading animation

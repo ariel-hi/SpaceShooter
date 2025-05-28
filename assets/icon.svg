@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="256" height="256" fill="#0f0f1b"/>
+    
+    <!-- Stars -->
+    <g fill="#ffffff">
+        <circle cx="64" cy="64" r="2"/>
+        <circle cx="128" cy="32" r="1.5"/>
+        <circle cx="192" cy="96" r="2"/>
+        <circle cx="32" cy="128" r="1.5"/>
+        <circle cx="224" cy="160" r="2"/>
+        <circle cx="96" cy="192" r="1.5"/>
+        <circle cx="160" cy="224" r="2"/>
+    </g>
+    
+    <!-- Spaceship -->
+    <path d="M128 64 L96 128 L160 128 Z" fill="#4a78ff"/>
+    <path d="M128 64 L96 128 L160 128 Z" fill="none" stroke="#82a9ff" stroke-width="4"/>
+    
+    <!-- Engine flames -->
+    <path d="M96 128 L128 160 L160 128" fill="#ffde4a"/>
+</svg> 
