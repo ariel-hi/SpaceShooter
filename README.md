@@ -15,6 +15,37 @@ A classic space shooter game with roguelike elements. Destroy asteroids to earn 
 - Spikes cannot be destroyed and will instantly defeat the player on collision.
 - Spikes are visually distinct (red, spiky triangles).
 
+## Prerequisites
+
+Before running the game, make sure you have:
+- [Node.js](https://nodejs.org/) installed (version 14 or higher recommended)
+- A modern web browser (Chrome, Firefox, Safari, or Edge)
+
+## Installation
+
+1. Clone or download this repository
+2. Open a terminal/command prompt in the project directory
+3. Install dependencies by running:
+```bash
+npm install
+```
+
+## Running the Game
+
+### Development Mode
+To run the game in development mode with hot-reloading:
+```bash
+npm start
+```
+Then open your browser and navigate to `http://localhost:1234`
+
+### Production Build
+To create a production build:
+```bash
+npm run build
+```
+The built files will be in the `dist` directory. You can serve these files using any static file server.
+
 ## Controls
 
 - **Left Arrow / A:** Move left
@@ -31,12 +62,6 @@ Earn points to unlock the following upgrades:
 - Faster bullets
 - Double shot capability
 - Triple shot capability
-
-## Installation
-
-1. Clone this repository
-2. Install dependencies: `npm install`
-3. Run the game: `npm start`
 
 ## Development
 
