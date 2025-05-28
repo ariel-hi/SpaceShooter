@@ -1,0 +1,16 @@
+{
+  "name": "space-shooter-roguelike",
+  "version": "1.0.0",
+  "description": "A space shooter roguelike game",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "dependencies": {
+    "pixi.js": "^7.3.2"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+} 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter Roguelike</title>
+    <!-- Import pixel art font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        /* Game container */
+        #game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            box-shadow: 0 0 20px rgba(74, 120, 255, 0.5);
+        }
+        
+        /* Pixel art styling - disable anti-aliasing */
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Loading screen */
+        #loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0f0f1b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            z-index: 100;
+        }
+        
+        #loading h1 {
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: #4a78ff;
+            text-shadow: 3px 3px 0 #000;
+        }
+        
+        #loading-bar {
+            width: 200px;
+            height: 30px;
+            border: 4px solid #fff;
+            position: relative;
+            background: #000;
+        }
+        
+        #loading-progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4aff94;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Game container -->
+    <div id="game-container">
+        <!-- Loading screen -->
+        <div id="loading">
+            <h1>SPACE SHOOTER</h1>
+            <div id="loading-bar">
+                <div id="loading-progress"></div>
+            </div>
+        </div>
+        <!-- Game will be added here by the script -->
+    </div>
+    <audio id="bg-music" src="assets/music.mp3" loop autoplay volume="0.25"></audio>
+    <audio id="sfx-hit" src="assets/retro_sfx/Hit 1.mp3" preload="auto" volume="0.25"></audio>
+    <audio id="sfx-destroy" src="assets/retro_sfx/destroy.wav" preload="auto" volume="0.25"></audio>
+    <audio id="sfx-defeat" src="assets/retro_sfx/Game Over.mp3" preload="auto" volume="0.25"></audio>
+    <audio id="sfx-upgrade" src="assets/retro_sfx/upgrade.mp3" preload="auto" style="display:none" volume="0.25"></audio>
+    
+    <script>
+        // Set initial volume for all audio elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioElements = document.querySelectorAll('audio');
+            audioElements.forEach(audio => {
+                audio.volume = 0.25;
+            });
+            
+            const progress = document.getElementById('loading-progress');
+            const loading = document.getElementById('loading');
+            let width = 0;
+            
+            const interval = setInterval(() => {
+                width += 5;
+                progress.style.width = width + '%';
+                
+                if (width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 300);
+                }
+            }, 100);
+        });
+    </script>
+    
+    <script src="src/index.js" type="module"></script>
+</body>
+</html> 
